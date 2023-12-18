@@ -1,0 +1,84 @@
+==========================Cerințe===============================================
+Problemă: Ești însărcinat cu dezvoltarea unei baze de date pentru un centru de fitness. 
+Centrul dorește să gestioneze membrii, antrenorii, clasele de fitness și echipamentele disponibile.
+Concentrează-te pe modul în care centrul de fitness ar putea gestiona informațiile despre membrii săi, 
+programările cu antrenorii, tipurile și orarele claselor de fitness, și starea echipamentelor de exerciții. 
+Gândește-te la atributele fiecărei entități și cum acestea se conectează între ele pentru a facilita funcționarea centrului.
+
+Cerințe:
+
+La nivel conceptual:
+ a) identificați entitățile și relațiile care compun schema bazei de date. (0.25 puncte)
+ b) identificați atributele conținute de entități (relații) - nume și domeniu. (0.25 puncte)
+
+ La nivel logic
+ c) proiectați schema bazei de date folosind diagrama ER (atenție la cardinalitatea/modalitatea dintre entități)
+   și exportați rezultatele în format .mwb (MySQL Workbench) și .sql (fișier SQL). (0.25 puncte)
+ d) asigurați-vă că relațiile sunt în forma normală 3 (3NF). Argumentați. (0.25 puncte)
+
+
+==========================Specificații==========================================
+- Timp de lucru (Sambata 09/12/2023 ora 23:59 până Marti 19/12/2023 ora 23:59)
+- Convenție de denumire fișiere CE_2_Grupa_Nume_Prenume_numeSchemaBazaDate.extensie (.mwb/.sql)
+- Fișierele vor fi transmise pe adresa de e-mail marian.necula@faa.unibuc.ro până
+  la data și ora stabilite.
+- Transmiterea fișierelor după data și ora convenite conduce automat la scăderea punctajului,
+  astfel cu fiecare oră de întârziere se scad 0.1 puncte.
+- Punctaj maxim - 1 punct normalizat din 1.75 puncte aferente temelor de casă,
+  într-un total de 3.5 puncte la seminar.
+- Copiatul/plagiatul duce automat la anularea temei, respectiv a punctajului aferent.
+
+#################################################################################
+
+Rezolvare:
+
+Tabela Membri:
+ID_Membru (primary key)
+Nume
+Prenume
+Data_Nasterii
+Adresa
+Email
+
+Tabela Antrenori:
+
+ID_Antrenor (primary key)
+Nume
+Prenume
+Specializare
+Email
+
+Tabela Clase_Fitness:
+ID_Clasa (primary key)
+Nume_Clasa
+Descriere
+ID_Antrenor (foreign key către Antrenori)
+Orar
+
+Tabela Echipamente:
+ID_Echipament (primary key)
+Nume_Echipament
+Stare
+ID_Clasa (foreign key către Clase_Fitness)
+
+Tabela Inscrieri:
+ID_Inscriere (primary key)
+ID_Membru (foreign key către Membri)
+ID_Clasa (foreign key către Clase_Fitness)
+
+Despre relațiile dintre tabele:
+
+Membri -> Inscrieri: Fiecare membru se poate înscrie la mai multe clase (dar fiecare înscriere e legată de un singur membru).
+
+Antrenori -> Clase_Fitness: Un antrenor poate conduce mai multe clase (dar fiecare clasă are un singur antrenor)
+
+Echipamente -> Clase_Fitness: Echipamentele pot fi legate la una sau mai multe clase de fitness (și o clasă poate avea unul sau mai multe echipamente).
+
+
+În scriptul dat, structura tabelului respectă cerințele fundamentale de normalizare în baza de date:
+
+Toate coloanele conțin informații unice: Fiecare coloană reprezintă un singur tip de informație, cum ar fi numele, prenumele,datele de naștere sau adresele, fără a combina mai multe detalii într-o singură coloană.
+Cheile primare și străine sunt corect definite: Cheile primare sunt distincte pentru fiecare tabel și sunt utilizate pentru a identifica în mod unic fiecare înregistrare. 
+De asemenea, cheile străine sunt folosite pentru a lega tabelele între ele, asigurând coerența datelor între diferite entități.
+Fiecare coloană depinde de cheia primară: Nu există dependențe tranzitive sau încurcături în structura datelor. Informațiile din fiecare coloană sunt legate în mod direct de cheia primară a tabelului respectiv.
+Aceste aspecte sugerează că structura bazei de date propusă respectă principiile de bază ale normalizării, menținând datele organizate, ne-redundante și coerente între entități.
